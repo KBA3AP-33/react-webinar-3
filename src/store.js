@@ -42,9 +42,12 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    const nextId = this.state.lastId ? this.state.lastId + 1 : this.state.list.length + 1;
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: this.state.list.length + 1, title: 'Новая запись' }],
+      lastId: nextId,
+      list: [...this.state.list, { code: nextId, title: 'Новая запись' }],
     });
   }
 
@@ -55,6 +58,7 @@ class Store {
   deleteItem(code) {
     this.setState({
       ...this.state,
+      lastId: this.state.lastId ?? this.state.list.length,
       list: this.state.list.filter(item => item.code !== code),
     });
   }
@@ -67,11 +71,14 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.map(item => {
-        if (item.code === code) {
-          item.selected = !item.selected;
+        const selected = item.code === code && !item.selected;
+        const nextItem = {
+          ...item,
+          selected,
+          selectedCount: selected ? (item.selectedCount ?? 0) + 1 : item.selectedCount,
         }
-        return item;
-      }),
+        return nextItem;
+      })
     });
   }
 }

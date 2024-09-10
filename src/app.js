@@ -1,6 +1,7 @@
 import React from 'react';
 import { createElement } from './utils.js';
 import './styles.css';
+import { getCorrectWriting } from "../src/utils.js";
 
 /**
  * Приложение
@@ -28,6 +29,12 @@ function App({ store }) {
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">{item.title}</div>
+                {
+                  item.selectedCount > 0 &&
+                    <div className='Item-selected-count'>
+                      Выделяли {item.selectedCount} {getCorrectWriting(item.selectedCount, { 1: 'раз', 2: 'раза', 5: 'раз' })}
+                    </div>
+                }
                 <div className="Item-actions">
                   <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
                 </div>

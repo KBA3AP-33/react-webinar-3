@@ -26,3 +26,12 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+export const getCorrectWriting = (num, result) => {
+  let second = num % 10;
+  let first = (num % 100 - second) / 10;
+
+  if (second === 1 && first !== 1) return result?.[1];
+  else if (second > 1 && second < 5 && first !== 1) return result?.[2];
+  else return result?.[5];
+}
