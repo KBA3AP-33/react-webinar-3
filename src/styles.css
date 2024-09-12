@@ -54,11 +54,6 @@ body {
   padding: 20px 10px;
 }
 
-.Item-selected-count {
-  text-wrap: nowrap;
-  padding: 20px 10px;
-}
-
 .Item-actions {
   display: flex;
   justify-content: flex-end;
