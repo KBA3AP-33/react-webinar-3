@@ -29,7 +29,7 @@ function App({ store }) {
               >
                 <div className="Item-code">{item.code}</div>
                 <div className="Item-title">
-                  <span>{item.title}</span>
+                  {item.title}
                   {
                     item.selectedCount > 0 &&
                       <>&ensp;|&ensp;Выделяли {item.selectedCount} {getCorrectWriting(item.selectedCount, { 1: 'раз', 2: 'раза', 5: 'раз' })}</>
@@ -37,7 +37,7 @@ function App({ store }) {
                 </div>
 
                 <div className="Item-actions">
-                  <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
+                  <button onClick={(e) => { e.stopPropagation(); store.deleteItem(item.code) }}>Удалить</button>
                 </div>
               </div>
             </div>

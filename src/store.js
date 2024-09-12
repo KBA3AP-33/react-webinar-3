@@ -42,7 +42,7 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
-    const nextId = this.state.lastId ? this.state.lastId + 1 : this.state.list.length + 1;
+    const nextId = (this.state.lastId ?? this.state.list.reduce((acc, el) => acc.code < el.code ? acc.code : el.code)) + 1;
 
     this.setState({
       ...this.state,
@@ -58,7 +58,7 @@ class Store {
   deleteItem(code) {
     this.setState({
       ...this.state,
-      lastId: this.state.lastId ?? this.state.list.length,
+      lastId: this.state.lastId ?? this.state.list.reduce((acc, el) => acc.code < el.code ? acc.code : el.code),
       list: this.state.list.filter(item => item.code !== code),
     });
   }
