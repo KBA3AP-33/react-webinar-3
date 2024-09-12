@@ -42,7 +42,7 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
-    const nextId = (this.state.lastId ?? this.state.list.reduce((acc, el) => acc.code < el.code ? acc.code : el.code)) + 1;
+    const nextId = (this.state.lastId ?? (this.state.list.length ? this.state.list.reduce((acc, el) => acc.code < el.code ? acc.code : el.code) : 0)) + 1;
 
     this.setState({
       ...this.state,
