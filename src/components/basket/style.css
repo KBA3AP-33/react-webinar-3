@@ -1,0 +1,18 @@
+.Basket-list {
+    margin-top: 60px;
+    border-top: 1px dashed #ccc;
+}
+
+.Basket-price {
+    text-align: end;
+    font-weight: 600;
+    padding-right: 100px;
+}
+
+.Basket-total_padding_cell {
+    padding-right: 20px;
+}
+
+.Basket-empty {
+    text-align: center;
+}

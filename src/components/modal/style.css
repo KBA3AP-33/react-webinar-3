@@ -1,0 +1,21 @@
+.Modal {
+    width: 100%;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Modal_display_hidden {
+    display: none;
+}
+
+.Modal-content {
+    width: 960px;
+    min-height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}

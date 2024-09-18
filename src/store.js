@@ -40,47 +40,41 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
-  /**
-   * Добавление новой записи
-   */
-  addItem() {
+  changeVisibleBasket() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }],
+      basket: {
+        ...this.state.basket,
+        isVisible: !this.state.basket?.isVisible
+      }
     });
   }
 
-  /**
-   * Удаление записи по коду
-   * @param code
-   */
-  deleteItem(code) {
+  addItemInBasket(item) {
+    const basketItem = this.state.basket?.[item.code];
+    const count = basketItem?.count ?? 0;
+    
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code),
+      basket: {
+        ...this.state.basket,
+        [item.code]: { ...item, count: count + 1 },
+        count: (this.state.basket?.count ?? 0) + (typeof(basketItem) === 'undefined'),
+        price: (this.state.basket?.price ?? 0) + item.price,
+      }
     });
   }
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
+  deleteItemFromBasket(code) {
+    const { [code]: item, ...nextBasket } = this.state.basket;
+
     this.setState({
       ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? { ...item, selected: false } : item;
-      }),
+      basket: {
+        ...nextBasket,
+        count: nextBasket.count - 1,
+        price: nextBasket.price - (item.count * item.price),
+      },
     });
   }
 }

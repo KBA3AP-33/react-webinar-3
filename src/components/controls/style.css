@@ -1,5 +1,12 @@
 .Controls {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
   padding: 20px;
+}
+
+.Controls-button {
+  min-width: 75px;
 }
