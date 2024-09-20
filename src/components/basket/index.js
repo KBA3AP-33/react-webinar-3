@@ -4,11 +4,13 @@ import Head from '../head';
 import List from '../list';
 import { getPriceFormat } from "../../utils";
 import { cn as bem } from '@bem-react/classname';
+import basketItem from '../basket-item';
+import Button from '../button';
 import './style.css';
 
 function Basket({ basket, onClose, onDeleteItem }) {
     const getList = () => {
-        const { price, count, isVisible, ...items } = basket;
+        const { items } = basket;
         return Object.values(items);
     }
     
@@ -23,16 +25,19 @@ function Basket({ basket, onClose, onDeleteItem }) {
     return (
         <div className={cn()}>
             <Head title="Корзина">
-                <button onClick={callbacks.onClose}>Закрыть</button>
+                <Button onClick={callbacks.onClose}>Закрыть</Button>
             </Head>
             {
                 (basket?.count)
                     ? <div className={cn('list')}>
                         <List
                             list={getList()}
-                            onDelete={onDeleteItem}/>
+                            component={basketItem}
+                            callbacks={{
+                                onDelete: onDeleteItem
+                            }}/>
                         <p className={cn('price')}>
-                            <span className={cn('total', {padding: 'cell'})}>
+                            <span className={cn('total')}>
                                 Итого:&ensp;
                             </span>
                             <span className={cn('total', {padding: 'cell'})}>

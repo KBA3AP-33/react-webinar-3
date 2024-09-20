@@ -1,29 +1,31 @@
-.Item {
+.Catalog-Item {
   display: flex;
   justify-content: flex-start;
   transition: background-color 1s;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  line-height: 18px;
 }
 
-.Item-code {
+.Catalog-Item-code {
   padding: 20px 10px 20px 20px;
 }
 
-.Item-title {
+.Catalog-Item-title {
   width: 100%;
   padding: 20px 10px;
 }
 
-.Item-price {
+.Catalog-Item-price {
+  color: #404040;
+  text-align: right;
+  line-height: 20px;
   padding: 20px;
 }
 
-.Item-count {
-  text-wrap: nowrap;
-  padding: 20px
-}
-
-.Item-actions {
+.Catalog-Item-actions {
   display: flex;
   justify-content: flex-end;
   padding: 20px 20px 20px 10px;
 }
+  

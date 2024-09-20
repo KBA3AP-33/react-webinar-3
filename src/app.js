@@ -6,6 +6,7 @@ import PageLayout from './components/page-layout';
 import Modal from './components/modal';
 import Basket from './components/basket';
 import BasketInfo from './components/basket-info';
+import CatalogItem from './components/catalog-item';
 
 /**
  * Приложение
@@ -17,8 +18,8 @@ function App({ store }) {
   const basket = store.getState().basket;
 
   const callbacks = {
-    onAddInBasket: useCallback((item) => {
-      store.addItemInBasket(item);
+    onAddInBasket: useCallback((code) => {
+      store.addItemInBasket(code);
     }, [store]),
 
     onDeleteItem: useCallback((code) => {
@@ -36,13 +37,18 @@ function App({ store }) {
       <Controls onMove={callbacks.onChangeVisibleModal}>
         <BasketInfo basket={basket}/>
       </Controls>
-      <List
-        list={list}
-        onAdd={callbacks.onAddInBasket}/>
+        <List
+          list={list}
+          component={CatalogItem}
+          callbacks={{ onAdd: callbacks.onAddInBasket }}/>
         
       <Modal isOpen={basket?.isVisible}>
         {
-          basket?.isVisible && <Basket basket={basket} onDeleteItem={callbacks.onDeleteItem} onClose={callbacks.onChangeVisibleModal}/>
+          basket?.isVisible &&
+            <Basket
+              basket={basket}
+              onDeleteItem={callbacks.onDeleteItem}
+              onClose={callbacks.onChangeVisibleModal}/>
         }
       </Modal>
     </PageLayout>

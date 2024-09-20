@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getPriceFormat, plural } from "../../utils";
+import { cn as bem } from '@bem-react/classname';
+import './style.css';
 
 function BasketInfo({ basket }) {
+  const cn = bem('Basket-info');
+
   return (
-    <div>
+    <div className={cn()}>
       <span>
         В корзине:&emsp;
-        <b>
+        <span className={cn('product')}>
           {
             (basket?.count)
               ? <>{basket.count} {plural(basket.count, { one: 'товар', few: 'товара', many: 'товаров' })} / {getPriceFormat(basket.price)}</>
               : <>пусто</>
           }
-        </b>
+        </span>
       </span>
     </div>
   );

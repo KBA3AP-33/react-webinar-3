@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Item from '../item';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
-function List({ list, onAdd, onDelete }) {
+
+function List({ list, component, callbacks }) {
   const cn = bem('List');
 
   return (
     <div className={cn()}>
       {list.map(item => (
         <div key={item.code} className={cn('item')}>
-          <Item item={item} onDelete={onDelete} onAdd={onAdd} />
+          { React.createElement(component, { item, callbacks }) }
         </div>
       ))}
     </div>
@@ -24,8 +24,8 @@ List.propTypes = {
       code: PropTypes.number,
     }),
   ).isRequired,
-  onAdd: PropTypes.func,
-  onDelete: PropTypes.func,
+  component: PropTypes.object,
+  callbacks: PropTypes.object,
 };
 
 export default React.memo(List);

@@ -3,10 +3,10 @@
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
   padding: 20px;
 }
 
 .Controls-button {
-  min-width: 75px;
+  min-width: 80px;
 }

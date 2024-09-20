@@ -50,15 +50,21 @@ class Store {
     });
   }
 
-  addItemInBasket(item) {
-    const basketItem = this.state.basket?.[item.code];
+  addItemInBasket(code) {
+    const item = this.state.list.find(e => e.code === code);
+    if (!item) return;
+
+    const basketItem = this.state.basket?.items?.[item.code];
     const count = basketItem?.count ?? 0;
     
     this.setState({
       ...this.state,
       basket: {
         ...this.state.basket,
-        [item.code]: { ...item, count: count + 1 },
+        items: {
+          ...this.state.basket?.items,
+          [item.code]: { ...item, count: count + 1 },
+        },
         count: (this.state.basket?.count ?? 0) + (typeof(basketItem) === 'undefined'),
         price: (this.state.basket?.price ?? 0) + item.price,
       }
@@ -66,14 +72,16 @@ class Store {
   }
 
   deleteItemFromBasket(code) {
-    const { [code]: item, ...nextBasket } = this.state.basket;
+    const { items, count, price } = this.state.basket;
+    const { [code]: item, ...nextBasket } = items;
 
     this.setState({
       ...this.state,
       basket: {
-        ...nextBasket,
-        count: nextBasket.count - 1,
-        price: nextBasket.price - (item.count * item.price),
+        ...this.state.basket,
+        items: { ...nextBasket },
+        count: count - 1,
+        price: price - (item.count * item.price),
       },
     });
   }
