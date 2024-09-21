@@ -4,7 +4,7 @@ import Head from '../head';
 import List from '../list';
 import { getPriceFormat } from "../../utils";
 import { cn as bem } from '@bem-react/classname';
-import basketItem from '../basket-item';
+import BasketItem from '../basket-item';
 import Button from '../button';
 import './style.css';
 
@@ -32,15 +32,16 @@ function Basket({ basket, onClose, onDeleteItem }) {
                     ? <div className={cn('list')}>
                         <List
                             list={getList()}
-                            component={basketItem}
                             callbacks={{
                                 onDelete: onDeleteItem
-                            }}/>
+                            }}>
+                            <BasketItem/>
+                        </List>
                         <p className={cn('price')}>
-                            <span className={cn('total')}>
-                                Итого:&ensp;
-                            </span>
                             <span className={cn('total', {padding: 'cell'})}>
+                                Итого&ensp;
+                            </span>
+                            <span className={cn('total')}>
                                 {getPriceFormat(basket.price)}
                             </span>
                         </p>

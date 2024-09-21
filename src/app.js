@@ -37,10 +37,11 @@ function App({ store }) {
       <Controls onMove={callbacks.onChangeVisibleModal}>
         <BasketInfo basket={basket}/>
       </Controls>
-        <List
-          list={list}
-          component={CatalogItem}
-          callbacks={{ onAdd: callbacks.onAddInBasket }}/>
+      <List
+        list={list}
+        callbacks={{ onAdd: callbacks.onAddInBasket }}>
+          <CatalogItem/>
+      </List>
         
       <Modal isOpen={basket?.isVisible}>
         {

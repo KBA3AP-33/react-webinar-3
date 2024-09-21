@@ -1,5 +1,5 @@
 .Basket-list {
-    margin-top: 60px;
+    margin-top: 71px;
 }
 
 .Basket-price {
@@ -8,13 +8,12 @@
     font-size: 18px;
     text-align: right;
     line-height: 20px;
-    padding: 20px;
-    padding-right: 105px;
-    margin: 0;
+    padding: 20px 0;
+    margin: 0 120px 70px 0;
 }
 
 .Basket-total_padding_cell {
-    padding: 20px;
+    padding-right: 50px;
 }
 
 .Basket-empty {

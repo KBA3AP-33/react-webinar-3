@@ -4,14 +4,14 @@ import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
 
-function List({ list, component, callbacks }) {
+function List({ list, children, callbacks }) {
   const cn = bem('List');
 
   return (
     <div className={cn()}>
       {list.map(item => (
         <div key={item.code} className={cn('item')}>
-          { React.createElement(component, { item, callbacks }) }
+          {{...children, props: { item, callbacks }}}
         </div>
       ))}
     </div>
@@ -24,7 +24,7 @@ List.propTypes = {
       code: PropTypes.number,
     }),
   ).isRequired,
-  component: PropTypes.object,
+  children: PropTypes.node,
   callbacks: PropTypes.object,
 };
 

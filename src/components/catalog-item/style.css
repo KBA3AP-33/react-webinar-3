@@ -17,10 +17,12 @@
 }
 
 .Catalog-Item-price {
+  font-size: 18px;
   color: #404040;
   text-align: right;
   line-height: 20px;
   padding: 20px;
+  padding-right: 15px;
 }
 
 .Catalog-Item-actions {
