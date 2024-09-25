@@ -1,0 +1,32 @@
+{
+    "main": {
+        "title": "Shop",
+        "mainLink": "Main",
+        "basket": {
+            "basketTool": {
+                "title": "In basket",
+                "goButton": "Go over",
+                "empty": "empty"
+            }
+        },
+        "catalog": {
+            "addButton": "Add"
+        }
+    },
+    "product": {
+        "originCountry": "Country of origin",
+        "category": "Category",
+        "releaseYear": "Year of release",
+        "price": "Price",
+        "addButton": "Add"
+    },
+    "basket": {
+        "title":"Basket",
+        "itemCount": "pcs",
+        "removeButton": "Delete",
+        "total": "Total"
+    },
+    "modal": {
+        "closeButton": "Close"
+    }
+}

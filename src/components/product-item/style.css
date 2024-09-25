@@ -1,0 +1,19 @@
+.Product-item {
+    font-size: 18px;
+    padding: 20px 40px;
+}
+
+.Product-item-country,
+.Product-item-category,
+.Product-item-edition,
+.Product-item-price {
+    font-weight: 700;
+}
+
+.Product-item-price {
+    font-size: 24px;
+}
+
+.Product-item *:not(:last-child) {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,32 @@
+{
+    "main": {
+        "title": "Магазин",
+        "mainLink": "Главная",
+        "basket": {
+            "basketTool": {
+                "title": "В корзине",
+                "goButton": "Перейти",
+                "empty": "пусто"
+            }
+        },
+        "catalog": {
+            "addButton": "Добавить"
+        }
+    },
+    "product": {
+        "originCountry": "Страна производитель",
+        "category": "Категория",
+        "releaseYear": "Год выпуска",
+        "price": "Цена",
+        "addButton": "Добавить"
+    },
+    "basket": {
+        "title":"Корзина",
+        "itemCount": "шт",
+        "removeButton": "Удалить",
+        "total": "Итого"
+    },
+    "modal": {
+        "closeButton": "Закрыть"
+    }
+}
