@@ -4,8 +4,8 @@ import List from '../../components/list';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
 import ProductsLayout from '../products-layout';
-import useLanguage from '../hooks/use-language';
 import Pagination from '../../components/pagination';
+import { getProperty, numberFormat } from '../../utils';
 
 function Main() {
   const store = useStore();
@@ -14,12 +14,13 @@ function Main() {
     const page = sessionStorage.getItem('page');
     store.actions.catalog.load(page ? Number(page) : 1);
   }, []);
-  const { translate } = useLanguage();
 
   const select = useSelector(state => ({
+    app: state.language.app,
     list: state.catalog.list,
     pages: state.catalog.pages,
   }));
+  const translate = (key) => getProperty(select.app, key);
 
   const callbacks = {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
@@ -32,9 +33,14 @@ function Main() {
   const renders = {
     item: useCallback(
       item => {
-        return <Item item={item} onAdd={callbacks.addToBasket} />;
+        return (
+          <Item
+            item={{ ...item, price: `${numberFormat(item.price)} ₽` }}
+            link={`/product/${item._id}`}
+            add={{ title: translate('main.catalog.addButton'), onAdd: callbacks.addToBasket }} />
+        )
       },
-      [callbacks.addToBasket],
+      [callbacks.addToBasket, select.app],
     ),
   };
 

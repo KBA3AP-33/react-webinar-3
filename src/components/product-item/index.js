@@ -2,15 +2,12 @@ import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import { numberFormat } from "../../utils";
-import useLanguage from '../../app/hooks/use-language';
 
-function ProductItem({ item, onAdd = () => {} }) {
+function ProductItem({ item, add }) {
     const cn = bem('Product-item');
-    const { translate } = useLanguage();
 
     const callbacks = {
-        onAdd: () => onAdd(item._id),
+        onAdd: () => add.onAdd(item._id),
     };
     
     return (
@@ -18,21 +15,23 @@ function ProductItem({ item, onAdd = () => {} }) {
             {
                 item &&
                 <>
-                    <div>{item?.description}</div>
+                    <div>{item.description}</div>
                     <div>
-                        <span>{translate('product.originCountry')}:&nbsp;</span>
-                        <span className={cn('country')}>{item?.madeIn?.title}&nbsp;({item?.madeIn?.code})</span>
+                        <span>{item.madeIn.title}:&nbsp;</span>
+                        <span className={cn('country')}>{item.madeIn.value}&nbsp;({item.madeIn.code})</span>
                     </div>
                     <div>
-                        <span>{translate('product.category')}:&nbsp;</span>
-                        <span className={cn('category')}>{item?.category?.title}</span>
+                        <span>{item.category.title}:&nbsp;</span>
+                        <span className={cn('category')}>{item.category.value}</span>
                     </div>
                     <div>
-                        <span>{translate('product.releaseYear')}:&nbsp;</span>
-                        <span className={cn('edition')}>{item?.edition}</span>
+                        <span>{item.edition.title}:&nbsp;</span>
+                        <span className={cn('edition')}>{item.edition.value}</span>
                     </div>
-                    <div className={cn('price')}>{translate('product.price')}:&nbsp;{numberFormat(item?.price)}&nbsp;₽</div>
-                    <button onClick={callbacks.onAdd}>{translate('product.addButton')}</button>
+                    <div className={cn('price')}>{item.price}</div>
+                    {
+                        add ? <button onClick={callbacks.onAdd}>{add.title}</button> : <></>
+                    }
                 </>
             }
         </div>
@@ -44,15 +43,24 @@ ProductItem.propTypes = {
         _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         description: PropTypes.string,
         madeIn: PropTypes.shape({
+            title: PropTypes.string,
+            value: PropTypes.string,
             code: PropTypes.string,
         }),
         category: PropTypes.shape({
             title: PropTypes.string,
+            value: PropTypes.string,
         }),
-        edition: PropTypes.number,
-        price: PropTypes.number,
+        edition: PropTypes.shape({
+            title: PropTypes.string,
+            value: PropTypes.number,
+        }),
+        price: PropTypes.string,
     }),
-    onAdd: PropTypes.func,
+    add: PropTypes.shape({
+        title: PropTypes.string,
+        onAdd: PropTypes.func,
+    }),
 };
 
 export default memo(ProductItem);

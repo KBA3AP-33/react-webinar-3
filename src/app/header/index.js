@@ -6,16 +6,29 @@ import Navbar from '../../components/navbar';
 import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
-import useLanguage from '../hooks/use-language';
+import { getProperty, numberFormat, plural } from '../../utils';
 
 function Header({ title }) {
     const store = useStore();
     const select = useSelector(state => ({
+        app: state.language.app,
+        language: state.language.language,
         amount: state.basket.amount,
         sum: state.basket.sum,
     }));
-    const { translate } = useLanguage();
+    const translate = (key) => getProperty(select.app, key);
+
     const links = [{ title: translate('main.mainLink'), path: '/' }]
+    
+    const getTotal = (amount, sum, lang) => {
+        if (!amount) return translate('main.basket.basketTool.empty');
+    
+        const products = (lang === 'eu')
+          ? plural(amount, { one: 'product', other: 'products' }, 'eu-EU')
+          : plural(amount, { one: 'товар', few: 'товара', many: 'товаров' })
+    
+        return `${amount} ${products} / ${numberFormat(sum)} ₽`
+    }
     
     const callbacks = {
         openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
@@ -26,7 +39,9 @@ function Header({ title }) {
         <header className={cn()}>
             <Head title={title} />
             <Navbar links={links}>
-                <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
+                <BasketTool
+                    open={{ title: translate('main.basket.basketTool.goButton'), onOpen: callbacks.openModalBasket }}
+                    tool={{ title: translate('main.basket.basketTool.title'), value: getTotal(select.amount, select.sum, select.language) }} />
             </Navbar>
         </header>
     );

@@ -2,11 +2,9 @@ import { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
-import useLanguage from '../../app/hooks/use-language';
 
-function ModalLayout({ title = 'Модалка', onClose = () => {}, ...props }) {
+function ModalLayout({ title = 'Модалка', close, ...props }) {
   const cn = bem('ModalLayout');
-  const { translate } = useLanguage();
 
   // Корректировка центра, если модалка больше окна браузера.
   const layout = useRef();
@@ -31,9 +29,9 @@ function ModalLayout({ title = 'Модалка', onClose = () => {}, ...props })
       <div className={cn('frame')} ref={frame}>
         <div className={cn('head')}>
           <h1 className={cn('title')}>{title}</h1>
-          <button className={cn('close')} onClick={onClose}>
-            {translate('modal.closeButton')}
-          </button>
+          {
+            close ? <button className={cn('close')} onClick={close.onClose}>{close.title}</button> : <></>
+          }
         </div>
         <div className={cn('content')}>{props.children}</div>
       </div>
@@ -43,7 +41,10 @@ function ModalLayout({ title = 'Модалка', onClose = () => {}, ...props })
 
 ModalLayout.propTypes = {
   title: PropTypes.string,
-  onClose: PropTypes.func,
+  close: PropTypes.shape({
+    title: PropTypes.string,
+    onClose: PropTypes.func,
+  }),
   children: PropTypes.node,
 };
 
