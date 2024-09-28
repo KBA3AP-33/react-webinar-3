@@ -29,7 +29,7 @@ function Header({ title }) {
     
         return `${amount} ${products} / ${numberFormat(sum)} ₽`
     }
-    
+
     const callbacks = {
         openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
     }; 

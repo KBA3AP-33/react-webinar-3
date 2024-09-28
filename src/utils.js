@@ -82,7 +82,7 @@ function getPages(params) {
       return { [params.first]: true, [params.current + 2]: false, ...items, [params.last]: false };
   } else if (params.current === params.last) {
       const { [params.last + 1]: _, ...items } = pages;
-      return { [params.first]: false, ...items, [params.last]: true };
+      return { [params.first]: false, [params.current - 2]: false, ...items, [params.last]: true };
   }
   return { [params.first]: false, ...pages, [params.last]: false };
 }

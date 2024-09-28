@@ -1,10 +1,10 @@
-import App from "../app";
+import Main from "../app/main";
 import Product from "../app/product";
 
 export default [
     {
         path: "/",
-        element: <App />
+        element: <Main />
     },
     {
         path: "product/:id",

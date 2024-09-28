@@ -6,12 +6,11 @@ import useSelector from '../../store/use-selector';
 import PageLayout from '../../components/page-layout';
 
 
-function ProductLayout({ title, children }) {
+function ProductLayout({ children }) {
   const activeModal = useSelector(state => state.modals.name);
 
   return (
     <PageLayout>
-        <Header title={title}/>
         {children}
         {activeModal === 'basket' && <Basket />}
     </PageLayout>
@@ -19,7 +18,6 @@ function ProductLayout({ title, children }) {
 }
 
 ProductLayout.propTypes = {
-    title: PropTypes.string,
     children: PropTypes.node.isRequired,
 };
 

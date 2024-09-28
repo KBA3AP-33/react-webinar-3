@@ -1,4 +1,4 @@
-import { codeGenerator, getPagination } from '../../utils';
+import { codeGenerator } from '../../utils';
 import StoreModule from '../module';
 
 class Catalog extends StoreModule {
@@ -11,8 +11,8 @@ class Catalog extends StoreModule {
     return {
       list: [],
       limit: 10,
+      countPages: 1,
       currentPage: 1,
-      pages: [],
     };
   }
 
@@ -25,11 +25,8 @@ class Catalog extends StoreModule {
       {
         ...this.getState(),
         list: json.result.items,
-        pages: getPagination({
-          first: 1,
-          current: page,
-          last: Math.ceil(json.result.count / this.getState().limit)
-        }),
+        countPages: Math.ceil(json.result.count / this.getState().limit),
+        currentPage: page,
       },
       'Загружены товары из АПИ',
     );

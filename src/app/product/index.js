@@ -5,6 +5,7 @@ import useSelector from '../../store/use-selector';
 import ProductItem from '../../components/product-item';
 import ProductsLayout from '../products-layout';
 import { getProperty, numberFormat } from '../../utils';
+import Header from '../header';
 
 
 function Product() {
@@ -47,7 +48,8 @@ function Product() {
   };
 
   return (
-    <ProductsLayout title={select.product?.title}>
+    <ProductsLayout>
+      <Header title={select.product?.title}/>
       <ProductItem
         item={item}
         add={{ title: translate('product.addButton'), onAdd: callbacks.addToBasket }}/>
