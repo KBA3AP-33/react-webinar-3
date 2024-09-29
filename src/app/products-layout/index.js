@@ -1,5 +1,4 @@
 import { memo } from 'react';
-import Header from '../header';
 import Basket from '../basket';
 import PropTypes from 'prop-types';
 import useSelector from '../../store/use-selector';

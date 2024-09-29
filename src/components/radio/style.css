@@ -1,0 +1,23 @@
+.Radio {
+    display: flex;
+    align-items: center;
+    padding: 20px 20px 10px;
+}
+
+.Radio .Input:not(:last-child) {
+    border-right: none;
+}
+
+.Input {
+    border: 1px solid #000;
+    padding: 2px 5px;
+}
+  
+.Input-title {
+    cursor: pointer;
+}
+
+.Input:has(input:checked) {
+    background-color: #9b9b9b;
+    color: #fff;
+}

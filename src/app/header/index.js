@@ -1,8 +1,9 @@
 import { memo, useCallback } from 'react';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
-import Head from '../head';
+import Head from '../../components/head';
 import Navbar from '../../components/navbar';
+import LanguageSelector from "../language-selector";
 import BasketTool from '../../components/basket-tool';
 import useStore from '../../store/use-store';
 import useSelector from '../../store/use-selector';
@@ -37,7 +38,9 @@ function Header({ title }) {
 
     return (
         <header className={cn()}>
-            <Head title={title} />
+            <Head title={title}>
+                <LanguageSelector/>
+            </Head>
             <Navbar links={links}>
                 <BasketTool
                     open={{ title: translate('main.basket.basketTool.goButton'), onOpen: callbacks.openModalBasket }}
