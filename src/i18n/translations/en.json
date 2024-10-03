@@ -11,8 +11,22 @@
   "basket.delete": "Delete",
   "article.add": "Add",
   "filter.reset": "Reset",
+  "filter.search": "Search",
+  "filter.category.order": "In order",
+  "filter.category.name": "By naming",
+  "filter.category.price": "Dear ones first",
+  "filter.category.age": "Ancient",
+  "filter.filter.all": "All",
   "basket.articles": {
     "one": "article",
     "other": "articles"
-  }
+  },
+  "auth.entry": "Entry",
+  "auth.exit": "Exit",
+  "auth.login": "Login",
+  "auth.password": "Password",
+  "auth.enter": "Enter",
+  "profile.title": "Profile",
+  "profile.name": "Name",
+  "profile.phone": "Phone"
 }
