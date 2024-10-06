@@ -1,10 +1,11 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useEffect } from 'react';
 import useTranslate from '../../hooks/use-translate';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import Select from '../../components/select';
 import Input from '../../components/input';
 import SideLayout from '../../components/side-layout';
+import { changeCategoryFormat } from '../../utils';
 
 /**
  * Контейнер со всеми фильтрами каталога
@@ -12,12 +13,13 @@ import SideLayout from '../../components/side-layout';
 function CatalogFilter() {
   const store = useStore();
   const { t } = useTranslate();
+  useEffect(() => { store.actions.categories.load() }, []);
 
   const select = useSelector(state => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
     category: state.catalog.params.category,
-    categories: state.catalog.categories,
+    categories: state.categories.list,
   }));
 
   const callbacks = {
@@ -41,34 +43,17 @@ function CatalogFilter() {
       ],
       [t],
     ),
-    categories: useMemo(
-      () => {
-        const group = Object.groupBy(select.categories, (item) =>  item.parent ? item.parent._id : 0);
-        const { [0]: parents, ...items } = group;
-    
-        const getFilter = (parents, count = 0) => {
-          return parents?.reduce((acc, el) => {
-            const array = Array.from({ length: count }).map(_ => '-');
-            const item = { value: el._id, title: `${array.join(' ')} ${el.title}`.trim() };
-    
-            return [
-              ...acc,
-              item,
-              ...((items[el._id]) ? getFilter(items[el._id], count + 1) : []),
-            ];
-          }, []);
-        }
-        return [{ value: '', title: 'Все' }, ...getFilter(parents) ?? []];
-      },
-      [select.categories]
-    ),
+    categories: useMemo(() => changeCategoryFormat(select.categories), [select.categories]),
   };
 
   return (
     <SideLayout padding="medium">
       {
         options.categories
-          ? <Select options={options.categories} value={select.category} onChange={callbacks.onFilter}/>
+          ? <Select
+            options={[{ value: '', title: t('filter.filter.all') }, ...options.categories]}
+            value={select.category}
+            onChange={callbacks.onFilter}/>
           : <></>
       }
       <Select options={options.sort} value={select.sort} onChange={callbacks.onSort} />
@@ -77,6 +62,7 @@ function CatalogFilter() {
         onChange={callbacks.onSearch}
         placeholder={t('filter.search')}
         delay={1000}
+        theme="big"
       />
       <button onClick={callbacks.onReset}>{t('filter.reset')}</button>
     </SideLayout>

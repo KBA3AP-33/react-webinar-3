@@ -11,7 +11,6 @@ class CatalogState extends StoreModule {
   initState() {
     return {
       list: [],
-      categories: [],
       params: {
         page: 1,
         limit: 10,
@@ -40,11 +39,6 @@ class CatalogState extends StoreModule {
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
     if (urlParams.has('category')) validParams.category = urlParams.get('category');
     
-    const response = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
-    const json = await response.json();
-    const items = json.result.items;
-
-    this.setState({ ...this.getState(), categories: items }, 'Категории загружены из АПИ');
     await this.setParams({ ...this.initState().params, ...validParams, ...newParams }, true);
   }
 

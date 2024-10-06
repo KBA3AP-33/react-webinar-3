@@ -11,11 +11,11 @@ function ArticleProfile({ article, t = (text) => text }) {
         <div className={cn('title')}>{t('profile.title')}</div>
         <div className={cn('prop')}>
             <span className={cn('label')}>{t('profile.name')}:&nbsp;</span>
-            <span className={cn('value')}>{article?.profile.name}</span>
+            <span className={cn('value')}>{article?.profile?.name}</span>
         </div>
         <div className={cn('prop')}>
             <span className={cn('label')}>{t('profile.phone')}:&nbsp;</span>
-            <span className={cn('value')}>{article?.profile.phone}</span>
+            <span className={cn('value')}>{article?.profile?.phone}</span>
         </div>
         <div className={cn('prop')}>
             <span className={cn('label')}>email:&nbsp;</span>

@@ -14,8 +14,8 @@ function AuthTool({ link, user, onLogin = () => {}, onLogout = () => {}, t = (te
                 ? <>
                     {
                         (link)
-                        ? <Link to={link} className={cn('name')}>{user.profile.name}</Link>
-                        : <div className={cn('name')}>{user.profile.name}</div>
+                        ? <Link to={link} className={cn('name')}>{user?.profile?.name}</Link>
+                        : <div className={cn('name')}>{user?.profile?.name}</div>
                     }
                     <button onClick={onLogout}>{t('auth.exit')}</button>
                 </>

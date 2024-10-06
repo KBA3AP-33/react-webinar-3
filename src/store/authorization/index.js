@@ -5,39 +5,34 @@ class AuthorizationState extends StoreModule {
     return {
       user: null,
       error: '',
+      waiting: false,
     };
   }
 
-  async init() {
-    const token = localStorage.getItem('token');
-
-    if (token && !this.getState().user) {
-        await this.load(token);
-    }
-  }
-
   async login(user) {
-    this.setState({ ...this.getState() });
-    await fetch(`/api/v1/users/sign`, {
+    const response = await fetch(`/api/v1/users/sign`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
     })
-    .then(async (res) => {
-      if (res.ok) {
-        const result = await res.json();
-        this.setState({ ...this.getState(), user: result.result.user, error: '' });
-        localStorage.setItem('token', result.result.token);
-      }
-      else await Promise.reject(res);
-    })
-    .catch((e) => this.setState({ ...this.getState(), error: e.statusText }));
+
+    const json = await response.json();
+    if (json.error) {
+      this.setState({ ...this.getState(), user: null, error: json.error.data.issues[0].message });
+      return;
+    }
+
+    this.setState({ ...this.getState(), user: json.result.user, error: '' });
+    localStorage.setItem('token', json.result.token);
   }
 
-  async load(token) {
-    this.setState({ ...this.getState()});
+  async load() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    this.setState({ ...this.getState(), waiting: true });
     const response = await fetch(`/api/v1/users/self?fields=*`, {
         headers: {
             'X-Token': token,
@@ -45,23 +40,21 @@ class AuthorizationState extends StoreModule {
         },
     });
     const json = await response.json();
-    this.setState({ ...this.getState(), user: { ...json.result } }, 'Загрузка профиля');
+    this.setState({ ...this.getState(), user: { ...json.result }, waiting: false }, 'Загрузка своего профиля');
   }
 
   async logout() {
-    const response = await fetch(`/api/v1/users/sign`, {
+    const token = localStorage.getItem('token');
+    await fetch(`/api/v1/users/sign`, {
         method: 'DELETE',
         headers: {
-            'X-Token': localStorage.getItem('token'),
+            'X-Token': token,
             'Content-Type': 'application/json'
         },
     });
-    const json = await response.json();
 
-    if (json.result) {
-        this.setState(this.initState(), 'logout');
-        localStorage.removeItem('token');
-    }
+    this.setState(this.initState(), 'logout');
+    localStorage.removeItem('token');
   }
 }
 

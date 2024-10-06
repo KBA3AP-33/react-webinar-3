@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import useTranslate from '../../hooks/use-translate';
 import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
@@ -7,22 +7,14 @@ import LocaleSelect from '../../containers/locale-select';
 import ArticleProfile from '../../components/article-profile';
 import AuthBar from '../../containers/auth-bar';
 import useSelector from '../../hooks/use-selector';
-import { useNavigate } from 'react-router-dom';
 
 
 function Profile() {
-  const navigate = useNavigate();
   const { t } = useTranslate();
 
   const select = useSelector(state => ({
-    user: state.authorization.user,
+    user: state.profile.user,
   }));
-
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/login?from=/profile');
-    }
-  }, [select.user])
 
   return (
     <PageLayout>
