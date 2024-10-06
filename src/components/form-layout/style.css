@@ -18,9 +18,6 @@
 
 .FormLayout-error {
     color: #ff0000;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
 }
 
 .FormLayout-error * {

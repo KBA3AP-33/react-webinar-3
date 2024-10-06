@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
-function FormInput({ title = '', type = 'text', theme = '', ...props }) {
+function FormInput({ title = '', type = 'text', theme = '', error = '', ...props }) {
   const cn = bem('FormInput');
   
   return (
@@ -16,6 +16,9 @@ function FormInput({ title = '', type = 'text', theme = '', ...props }) {
             type={type}
             className={cn('input')}
             {...props}/>
+        {
+          (error) && <p className={cn('error')}>{error}</p>
+        }
     </div>
   );
 }
@@ -24,6 +27,7 @@ FormInput.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   theme: PropTypes.string,
+  error: PropTypes.string,
 };
 
 export default memo(FormInput);

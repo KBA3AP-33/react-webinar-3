@@ -6,6 +6,10 @@
     padding: 10px 20px;
 }
 
+.AuthTool a {
+    color: #0087e9;
+}
+
 .AuthTool-name {
     font-size: 13px;
 }

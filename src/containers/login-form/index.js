@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import FormLayout from '../../components/form-layout';
 import FormInput from '../../components/form-input';
 
-function LoginForm({ onLogin = () => {}, error, t = (text) => text }) {
+function LoginForm({ onLogin = () => {}, error, waiting, t = (text) => text }) {
     const [user, setUser] = useState({ login: '', password: '' });
-    const [errors, setErrors] = useState(error ? [error] : []);
-
+    const [errors, setErrors] = useState({ login: '', password: '' });
+    
     const isValid = () => {
-        let errors = [];
-        setErrors(errors);
+        const nextErrors = { login: '', password: '' };
 
-        if (user.login.length < 5) errors = [...errors, `Минимальная длина поля "${t('auth.login')}" - 5 символов`];
-        if (user.password.length < 5) errors = [...errors, `Минимальная длина поля "${t('auth.password')}" - 5 символов`];
+        if (user.login.length < 5) nextErrors.login = `Минимальная длина 5 символов`;
+        if (user.password.length < 5) nextErrors.password = `Минимальная длина 5 символов`;
 
-        setErrors(prev => [...prev, ...errors]);
-        return !(!!errors.length);
+        setErrors(nextErrors);
+        return nextErrors.login === '' && nextErrors.password === '';
     }
 
     const callbacks = {
@@ -31,17 +30,20 @@ function LoginForm({ onLogin = () => {}, error, t = (text) => text }) {
     return (
         <FormLayout
             title={t('auth.entry')}
-            errors={(errors.length) ? errors : (error) ? [error] : []}
+            error={error}
+            waiting={waiting}
             labelSubmit={t('auth.enter')}
             onSubmit={callbacks.onLogin}>
             <FormInput
                 id='login'
                 title={t('auth.login')}
+                error={errors.login}
                 value={user.login.trimStart()}
                 onChange={callbacks.onName}/>
             <FormInput
                 id='password'
                 title={t('auth.password')}
+                error={errors.password}
                 type='password'
                 value={user.password.trimStart()}
                 onChange={callbacks.onPassword}/>
@@ -52,6 +54,7 @@ function LoginForm({ onLogin = () => {}, error, t = (text) => text }) {
 LoginForm.propTypes = {
     onLogin: PropTypes.func,
     error: PropTypes.string,
+    waiting: PropTypes.bool,
     t: PropTypes.func,
 };
 

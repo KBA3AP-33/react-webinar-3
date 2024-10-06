@@ -20,9 +20,13 @@ function Login() {
     const select = useSelector(state => ({
         error: state.authorization.error,
         user: state.authorization.user,
+        waiting: state.authorization.waiting,
     }));
 
     useEffect(() => { if (select.user) navigate(params[0].get('from') || '/') }, [select.user]);
+    useEffect(() => {
+        return () => { store.actions.authorization.resetError(); }
+    }, []);
 
     const callbacks = {
         onLogin: useCallback((user) => store.actions.authorization.login(user), [store]),
@@ -38,6 +42,7 @@ function Login() {
             <LoginForm
                 onLogin={callbacks.onLogin}
                 error={select.error}
+                waiting={select.waiting}
                 t={t}/>
         </PageLayout>
     );

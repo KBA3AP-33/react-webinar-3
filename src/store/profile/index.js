@@ -12,7 +12,7 @@ class ProfileState extends StoreModule {
     async load() {
         this.setState({...this.getState(), waiting: true })
         const token = localStorage.getItem('token');
-        
+
         if (token) {
             const response = await fetch(`/api/v1/users/self?fields=*`, {
                 headers: {
@@ -26,8 +26,16 @@ class ProfileState extends StoreModule {
                 user: json.result ? { ...json.result } : null,
                 error: json?.error?.data?.issues[0]?.message ?? '',
             }, 'Загрузка профиля пользователя');
+            
+            if (json.error) {
+                localStorage.removeItem('token');    
+            }
         }
         this.setState({ ...this.getState(), waiting: false });
+    }
+
+    resetError() {
+        this.setState({ ...this.getState(), error: '' });    
     }
 }
 

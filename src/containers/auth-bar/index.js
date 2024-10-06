@@ -13,12 +13,13 @@ function AuthBar() {
 
     const select = useSelector(state => ({
         user: state.authorization.user,
+        waiting: state.authorization.waiting,
     }));
 
     const callbacks = {
         onLogin: useCallback(() => navigate(`/login?from=${(location.pathname !== '/login') ? location.pathname : ''}`), []),
         onLogout: useCallback(() => {
-            store.actions.authorization.logout()
+            store.actions.authorization.logout();
             if (location.pathname === '/profile') {
                 navigate('/', { replace: true });
             }
@@ -30,6 +31,7 @@ function AuthBar() {
             <AuthTool
                 link={`/profile`}
                 user={select.user}
+                waiting={select.waiting}
                 onLogin={callbacks.onLogin}
                 onLogout={callbacks.onLogout}
                 t={t}/>

@@ -9,6 +9,7 @@ class BasketState extends StoreModule {
       list: [],
       sum: 0,
       amount: 0,
+      waiting: false,
     };
   }
 
@@ -32,6 +33,7 @@ class BasketState extends StoreModule {
 
     if (!exist) {
       // Поиск товара в каталоге, чтобы его добавить в корзину.
+      this.setState({ ...this.getState(), waiting: true });
       const response = await fetch(`/api/v1/articles/${_id}`);
       const json = await response.json();
       const item = json.result;
@@ -47,6 +49,7 @@ class BasketState extends StoreModule {
         list,
         sum,
         amount: list.length,
+        waiting: false,
       },
       'Добавление в корзину',
     );

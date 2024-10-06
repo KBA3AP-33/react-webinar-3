@@ -10,6 +10,7 @@ class AuthorizationState extends StoreModule {
   }
 
   async login(user) {
+    this.setState({ ...this.getState(), waiting: true });
     const response = await fetch(`/api/v1/users/sign`, {
       method: 'POST',
       headers: {
@@ -17,14 +18,13 @@ class AuthorizationState extends StoreModule {
       },
       body: JSON.stringify(user),
     })
-
     const json = await response.json();
     if (json.error) {
-      this.setState({ ...this.getState(), user: null, error: json.error.data.issues[0].message });
+      this.setState({ ...this.getState(), user: null, error: json.error.data.issues[0].message, waiting: false });
       return;
     }
 
-    this.setState({ ...this.getState(), user: json.result.user, error: '' });
+    this.setState({ ...this.getState(), user: json.result.user, error: '', waiting: false });
     localStorage.setItem('token', json.result.token);
   }
 
@@ -40,11 +40,20 @@ class AuthorizationState extends StoreModule {
         },
     });
     const json = await response.json();
-    this.setState({ ...this.getState(), user: { ...json.result }, waiting: false }, 'Загрузка своего профиля');
+    this.setState({
+      ...this.getState(),
+      user: json.result ? { ...json.result } : null,
+      waiting: false,
+    }, 'Загрузка своего профиля');
+    
+    if (json.error) {
+      localStorage.removeItem('token');
+    }
   }
 
   async logout() {
     const token = localStorage.getItem('token');
+    this.setState({ ...this.getState(), waiting: true });
     await fetch(`/api/v1/users/sign`, {
         method: 'DELETE',
         headers: {
@@ -55,6 +64,10 @@ class AuthorizationState extends StoreModule {
 
     this.setState(this.initState(), 'logout');
     localStorage.removeItem('token');
+  }
+
+  resetError() {
+    this.setState({ ...this.getState(), error: '' });    
   }
 }
 

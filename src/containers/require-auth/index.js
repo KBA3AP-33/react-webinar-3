@@ -15,11 +15,17 @@ function RequireAuth({ children }) {
       error: state.profile.error,
     }));
 
-    useEffect(() => { store.actions.profile.load(); }, []);
+    useEffect(() => {
+      store.actions.profile.load();
+
+      return () => { store.actions.profile.resetError() }
+    }, []);
+    
     useEffect(() => {
       if (select.error) {
         store.actions.authorization.logout();
         navigate('/', { replace: true });
+        return;
       }
 
       if (!select.waiting) {
