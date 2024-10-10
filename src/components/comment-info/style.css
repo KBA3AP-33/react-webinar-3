@@ -1,0 +1,14 @@
+.CommentInfo {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.CommentInfo-link {
+    color: #0087e9;
+}
+
+.CommentInfo-close {
+    color: #b2b2b2;
+    text-decoration: underline;
+    cursor: pointer;
+}

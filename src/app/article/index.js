@@ -13,6 +13,10 @@ import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector } from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import commentsActions from '../../store-redux/comments/actions';
+import Comments from '../../containers/comments';
+import listToTree from '../../utils/list-to-tree';
+
 
 function Article() {
   const store = useStore();
@@ -21,25 +25,30 @@ function Article() {
   // Параметры из пути /articles/:id
 
   const params = useParams();
+  const { t, lang } = useTranslate();
 
-  useInit(() => {
-    //store.actions.article.load(params.id);
-    dispatch(articleActions.load(params.id));
-  }, [params.id]);
+  useInit(() => { dispatch(articleActions.load(params.id)) }, [params.id, lang]);
+  useInit(() => { dispatch(commentsActions.load(params.id)) }, [params.id]);
 
   const select = useSelector(
     state => ({
       article: state.article.data,
       waiting: state.article.waiting,
+      comments: state.comments.data,
     }),
     shallowequal,
   ); // Нужно указать функцию для сравнения свойства объекта, так как хуком вернули объект
 
-  const { t } = useTranslate();
 
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
+  };
+
+  const options = {
+    comments: useMemo(
+      () => listToTree(select.comments.items ?? []), [select.comments.items],
+    ),
   };
 
   return (
@@ -52,6 +61,7 @@ function Article() {
       <Spinner active={select.waiting}>
         <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
       </Spinner>
+      <Comments article={params.id} comments={options.comments} count={select.comments.count}/>
     </PageLayout>
   );
 }
