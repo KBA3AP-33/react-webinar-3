@@ -4,7 +4,7 @@ import { cn as bem } from '@bem-react/classname';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-function Comment({ comment, onReply = () => {}, t = (text) => text }) {
+function Comment({ comment, username = '', onReply = () => {}, t = (text) => text }) {
   const cn = bem('Comment');
 
   const callbacks = {
@@ -14,7 +14,9 @@ function Comment({ comment, onReply = () => {}, t = (text) => text }) {
   return (
     <div className={cn()}>
         <div className={cn('header')}>
-            <p className={cn('user')}>{comment.author.profile.name}</p>
+            <p className={cn('user', { current: (comment.author.profile.name === username) })}>
+                {comment.author.profile.name}
+            </p>
             <p className={cn('date')}>{comment.dateCreate}</p>
         </div>
         <div className={cn('content')}>{comment.text}</div>
@@ -36,6 +38,7 @@ Comment.propTypes = {
             }),
         }),
     }).isRequired,
+    username: PropTypes.string,
     t: PropTypes.func,
 };
 

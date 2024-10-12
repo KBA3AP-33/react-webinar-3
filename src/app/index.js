@@ -1,6 +1,5 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import useSelector from '../hooks/use-selector';
 import useStore from '../hooks/use-store';
 import useInit from '../hooks/use-init';
 import Main from './main';
@@ -10,6 +9,8 @@ import Login from './login';
 import Profile from './profile';
 import Protected from '../containers/protected';
 import { useSelector as useSelectorRedux } from 'react-redux';
+import useTranslate from '../hooks/use-translate';
+import useServices from '../hooks/use-services';
 
 /**
  * Приложение
@@ -20,6 +21,14 @@ function App() {
   useInit(async () => {
     await store.actions.session.remind();
   });
+
+  const services = useServices();
+  const { lang } = useTranslate();
+
+  useLayoutEffect(() => {
+    const header = services._i18n.config.langHeader;
+    store.services.api.setHeader(header, lang);
+  }, [lang]);
 
   const activeModal = useSelectorRedux(state => state.modals.name);
 

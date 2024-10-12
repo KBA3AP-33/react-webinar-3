@@ -22,11 +22,13 @@
     font-weight: bold;
 }
 
+.Comment-user_current,
 .Comment-date {
     color: #666666;
 }
 
 .Comment-content {
+    word-break: break-all;
     font-size: 14px;
 }
 

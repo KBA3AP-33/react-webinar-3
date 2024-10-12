@@ -6,7 +6,7 @@ import useTranslate from '../../hooks/use-translate';
 import CommentFormSection from '../comment-form-section';
 import dateFormat from '../../utils/date-format';
 
-function Comment({ comment, currentForm, onCreate = () => {}, onClose = () => {}, level, ...props }) {
+function Comment({ comment, username, currentForm, onCreate = () => {}, onClose = () => {}, level, ...props }) {
     const { t, lang } = useTranslate();
     const date = dateFormat(comment.dateCreate, lang);
 
@@ -22,6 +22,7 @@ function Comment({ comment, currentForm, onCreate = () => {}, onClose = () => {}
                     (comment) &&
                         <CommentComponent
                             comment={{ ...comment, dateCreate: `${date.day} ${t('in')} ${date.time}` }}
+                            username={username}
                             onReply={onClose}
                             t={t}/>
                 }
@@ -31,11 +32,12 @@ function Comment({ comment, currentForm, onCreate = () => {}, onClose = () => {}
                             <div key={e._id}>
                                 <Comment
                                     comment={e}
-                                    level={level}
+                                    username={username}
+                                    level={level + 1}
                                     currentForm={currentForm}
                                     onCreate={callbacks.onCreate}
                                     onClose={onClose}
-                                    style={{ marginLeft: `${(level + 1) * 30}px` }}/>
+                                    style={{ marginLeft: `${(level < 4) ? 30 : 0}px` }}/>
                                     {
                                         (currentForm === e._id) &&
                                             <CommentFormSection
@@ -43,7 +45,7 @@ function Comment({ comment, currentForm, onCreate = () => {}, onClose = () => {}
                                                 onCreate={callbacks.onCreate}
                                                 onClose={onClose}
                                                 currentForm={currentForm}
-                                                style={{ marginLeft: `${(level + 1) * 60}px` }}/>
+                                                style={{ marginLeft: `${(level < 4) ? 60 : 30}px` }}/>
                                     }
                                     
                             </div>
@@ -59,6 +61,7 @@ function Comment({ comment, currentForm, onCreate = () => {}, onClose = () => {}
 
 Comment.propTypes = {
     comment: PropTypes.object,
+    username: PropTypes.string,
     onCreate: PropTypes.func,
     onClose: PropTypes.func,
     level: PropTypes.number.isRequired,

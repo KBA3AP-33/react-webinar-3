@@ -31,7 +31,6 @@ class I18nService {
 
     setLang(lang) {
         this.currentLang = lang;
-        this.services.api.setHeader(this.config.langHeader, lang);
         for (const listener of this.listeners) listener(this.currentLang);
     }
   }

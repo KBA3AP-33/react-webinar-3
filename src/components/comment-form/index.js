@@ -1,9 +1,9 @@
-import { memo, useState } from 'react';
+import { memo, useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import './style.css';
 
-function CommentForm({ title, create, close, t = (text) => text }) {
+const CommentForm = forwardRef(function CommentForm({ title, create, close, t = (text) => text }, ref) {
   const cn = bem('CommentForm');
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
@@ -29,6 +29,7 @@ function CommentForm({ title, create, close, t = (text) => text }) {
         <p className={cn('title')}>{title}</p>
         <div>
             <textarea
+              ref={ref}
               value={value}
               onChange={(e) => setValue(e.target.value)}
               className={cn('content')}/>
@@ -44,7 +45,7 @@ function CommentForm({ title, create, close, t = (text) => text }) {
         </div>
     </form>
   );
-}
+})
 
 CommentForm.propTypes = {
   title: PropTypes.string.isRequired,

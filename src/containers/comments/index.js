@@ -37,6 +37,7 @@ function Comments({ article, comments, count }) {
               <div key={comment._id}>
                 <Comment 
                   comment={comment}
+                  username={select.user?.profile?.name}
                   level={0}
                   onCreate={callbacks.onCreate}
                   onClose={callbacks.onClose}
